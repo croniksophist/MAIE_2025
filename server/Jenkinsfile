@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/croniksophist/MAIE_Framework.git'
+            }
+        }
+
+        stage('Setup Environment') {
+            steps {
+                sh 'python -m venv venv'
+                sh 'source venv/bin/activate'
+                sh 'pip install -r requirements.txt'
+            }
+        }
+
+        stage('Linting') {
+            steps {
+                sh 'flake8 .'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh 'pytest --cov=./ --cov-report=xml'
+            }
+        }
+
+        stage('Build & Deploy') {
+            steps {
+                sshagent(['DEPLOY_SERVER_CREDENTIALS']) {
+                    sh '''
+                    ssh user@your-server "cd /path/to/project && git pull && docker-compose up --build -d"
+                    '''
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,253 @@
+/* Global styles */
+/* Import Fonts */
+/* Import this into the project by adding:
+
+import './global.css';
+*/
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Lato:wght@300;400;700&family=Bebas+Neue&family=Raleway:wght@400;600&display=swap');
+
+/* Light Mode (Default) */
+:root {
+  --primary-color: #772E25; /* Rusty Umber */
+  --secondary-color: #005D9A; /* Caribbean Current */
+  --accent-color: #FFD166; /* Sunglow */
+  --highlight-color: #C44536; /* Persian Red */
+  --neutral-color: #283D3B; /* Dark Slate Grey */
+  --primary-font-color: #4CAF50; /* Emerald Green */
+  --secondary-font-color: #005D9A; /* Deep Blue */
+  --neutral-font-color: #333333; /* Dark Grey */
+  --background-color: #F9F9F9; /* Soft Light Background */
+  --card-bg: #FFFFFF; /* White for Cards */
+}
+
+/* Dark Mode */
+[data-theme="dark"] {
+  --primary-color: #A52A2A; /* Darker Umber */
+  --secondary-color: #004080; /* Deeper Blue */
+  --accent-color: #FFB400; /* Softer Gold */
+  --highlight-color: #992E2E; /* Dark Red */
+  --neutral-color: #1C1C1C; /* Deep Slate */
+  --primary-font-color: #9FFF9F; /* Light Emerald */
+  --secondary-font-color: #3A8DFF; /* Sky Blue */
+  --neutral-font-color: #F0F0F0; /* Light Grey */
+  --background-color: #121212; /* Dark Background */
+  --card-bg: #1E1E1E; /* Darker Cards */
+}
+
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure the body takes at least the full viewport height */
+  font-family: 'Lato', sans-serif;
+  color: var(--neutral-font-color);
+  background-color: var(--background-color);
+  line-height: 1.6;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--primary-font-color);
+}
+
+h1 { font-size: 2.5rem; font-weight: 700; }
+h2 { font-size: 2rem; font-weight: 600; }
+h3 { font-size: 1.75rem; font-weight: 600; }
+h4 { font-size: 1.5rem; font-weight: 500; }
+h5 { font-size: 1.25rem; font-weight: 500; }
+h6 { font-size: 1rem; font-weight: 400; }
+
+/* Movie Headers */
+.movie-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem;
+  color: var(--highlight-color);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+/* Article Headers */
+.article-header {
+  font-family: 'Raleway', sans-serif;
+  font-size: 2rem;
+  color: var(--secondary-font-color);
+  font-weight: 600;
+}
+
+/* Remove default browser bullets */
+ul {
+  list-style-type: none;  /* Remove default bullets */
+  padding-left: 0;        /* Remove default padding */
+}
+
+/* Buttons */
+button {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  border-radius: 5px;
+}
+
+button.primary {
+  background-color: var(--primary-color);
+  color: #FFF;
+}
+
+button.secondary {
+  background-color: var(--secondary-color);
+  color: #FFF;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+/* File: client/src/styles/global.css */
+
+/* Animated Button Edits */
+.animated-button {
+  padding: 10px 20px;
+  border: none;
+  background-color: var(--secondary-color); /* Use a variable from your theme */
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+/* Hover effect for animated button */
+.animated-button:hover {
+  background-color: var(--highlight-color); /* Use another theme variable for hover effect */
+}
+
+/* Button Styles */
+button {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  border-radius: 5px;
+}
+
+button.primary {
+  background-color: var(--primary-color);
+  color: #FFF;
+}
+
+button.secondary {
+  background-color: var(--secondary-color);
+  color: #FFF;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
+  /* Adjust font-size and padding for buttons on smaller screens */
+  button, .animated-button {
+    font-size: 0.875rem; /* Smaller font size for smaller screens */
+    padding: 8px 16px; /* Slightly smaller padding */
+  }
+
+  /* Ensure the animated button has the same behavior */
+  .animated-button {
+    font-size: 0.875rem;
+    padding: 8px 16px;
+  }
+
+  /* Other responsive styles for buttons */
+  button.primary,
+  button.secondary {
+    font-size: 0.875rem;
+    padding: 8px 16px;
+  }
+}
+
+/* Links */
+a {
+  color: var(--secondary-color);
+  text-decoration: none;
+  transition: 0.3s ease-in-out;
+}
+
+a:hover {
+  color: var(--highlight-color);
+  text-decoration: underline;
+}
+
+/* Containers */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Cards */
+.card {
+  background-color: var(--card-bg);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease-in-out;
+}
+
+/* Utility Classes */
+.text-center { text-align: center; }
+.flex { display: flex; justify-content: center; align-items: center; }
+.grid { display: grid; gap: 20px; }
+.shadow { box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  .movie-title { font-size: 2.5rem; }
+  
+  /* Make Dashboard Flexible */
+  .dashboard-container {
+    flex-direction: column; /* Stack items vertically on smaller screens */
+    align-items: center;
+    padding: 10px;
+  }
+
+  .dashboard-container h1 {
+    font-size: 1.5rem; /* Reduce heading size for mobile */
+  }
+
+  /* Improve table layout on smaller screens */
+  .project-overview table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .project-overview table th, .project-overview table td {
+    padding: 10px;
+    text-align: left;
+  }
+
+  /* Card Styling on Mobile */
+  .card {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}

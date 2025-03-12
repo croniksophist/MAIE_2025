@@ -1,0 +1,88 @@
+/* LoginForm.css */
+/* Container for centering the form */
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    /* background-color: var(--background-color); */
+  }
+  
+  /* Styling the login form */
+  .login-form {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--primary-font-color); /* Primary font color */
+  }
+  
+  .input-field {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    margin-bottom: 1rem;
+    transition: border 0.3s ease;
+    background-color: var(--background-color);
+    color: var(--neutral-font-color); /* Text color inside input */
+  }
+  
+  .input-field:focus {
+    border-color: var(--secondary-color); /* Focus border color */
+  }
+  
+  /* Submit button styles */
+  .submit-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .submit-btn:hover:enabled {
+    background-color: var(--secondary-color);
+  }
+  
+  /* Error message styles */
+  .error-message {
+    color: var(--highlight-color);
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+  
+  @media (max-width: 480px) {
+    .login-form {
+      padding: 1rem;
+      width: 90%;
+    }
+  
+    .login-title {
+      font-size: 1.25rem;
+    }
+  }
+  

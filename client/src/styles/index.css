@@ -1,0 +1,76 @@
+/* Import Font */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Lato:wght@300;400;700&family=Bebas+Neue&family=Raleway:wght@400;600&display=swap');
+
+/* Light Mode (Default) */
+:root {
+  --primary-color: #772E25;
+  --secondary-color: #005D9A;
+  --accent-color: #FFD166;
+  --highlight-color: #C44536;
+  --neutral-color: #283D3B;
+  --primary-font-color: #4CAF50;
+  --secondary-font-color: #005D9A;
+  --neutral-font-color: #333333;
+  --background-color: #F9F9F9;
+  --card-bg: #FFFFFF;
+}
+
+/* Dark Mode */
+[data-theme="dark"] {
+  --primary-color: #A52A2A;
+  --secondary-color: #004080;
+  --accent-color: #FFB400;
+  --highlight-color: #992E2E;
+  --neutral-color: #1C1C1C;
+  --primary-font-color: #9FFF9F;
+  --secondary-font-color: #3A8DFF;
+  --neutral-font-color: #F0F0F0;
+  --background-color: #121212;
+  --card-bg: #1E1E1E;
+}
+
+/* Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  background-color: var(--background-color);
+  color: var(--neutral-font-color);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Buttons */
+button {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  padding: 10px 20px; /* Edited */
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: transform 0.2s ease-in-out;
+}
+/*
+button:hover {
+  transform: scale(1.05);
+}
+*/
+button.primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+button.secondary {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+}

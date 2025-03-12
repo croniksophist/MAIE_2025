@@ -1,0 +1,219 @@
+/* Sidebar Base Styles */
+.sidebar {
+  position: fixed; /* Fix it to the left side of the screen */
+  top: 0; /* Ensure it starts from the top */
+  left: 0;
+  width: 250px;
+  height: 100%; /* Ensures the sidebar takes full height of the page */
+  background: #1a1a2e;
+  color: white;
+  transition: width 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.sidebar.collapsed {
+  width: 80px; /* Narrow width when collapsed */
+  background-color: #14142b; /* Darken the background when collapsed */
+}
+
+/* Sidebar Toggle Button (placed separately) */
+.toggle-container {
+  padding: 10px;
+}
+
+.sidebar .toggle-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  margin: 10px;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Navigation Links */
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px; /* Adds spacing from the top */
+}
+
+.sidebar nav ul li {
+  padding: 15px;
+  display: flex;
+  align-items: center; /* Ensures items are vertically centered */
+  transition: background-color 0.3s ease-in-out;
+}
+
+.sidebar nav ul li a {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  gap: 10px;
+  align-items: center; /* Aligns text with icons */
+  font-size: 16px;
+  transition: font-size 0.3s ease;
+}
+
+.sidebar nav ul li a svg {
+  transition: transform 0.3s ease;
+}
+
+/* Ensure the icon is aligned properly when collapsed */
+.sidebar.collapsed nav ul li a, .sidebar.collapsed .settings-btn svg {
+  font-size: 1.5em; /* Slightly larger icons in collapsed state */
+  justify-content: center; /* Center icons horizontally */
+}
+
+.sidebar.collapsed nav ul li a svg {
+  transform: scale(0.8); /* Shrink the icons slightly */
+  margin-right: 0; /* Reset any unnecessary margin on the right */
+}
+
+/* Styling for settings and appearance */
+.settings-menu {
+  margin-top: 20px;
+}
+
+/* Settings button styling */
+.settings-menu button {
+  background: transparent;
+  color: #FFF;
+  padding: 10px 15px;
+  border: none;
+  display: flex;
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+}
+
+/* Appearance Toggle - Text or Icons */
+.appearance-toggle {
+  padding: 10px 15px;
+  display: flex;
+  flex-direction: column; /* Stack the elements vertically */
+  justify-content: flex-start; /* Align elements to the top */
+  align-items: flex-start; /* Align to the left */
+}
+
+/* When collapsed, icons should not be misaligned */
+.appearance-toggle svg {
+  transition: transform 0.3s ease;
+}
+
+/* Increase the icon size in collapsed state */
+.sidebar.collapsed .appearance-toggle svg {
+  transform: scale(1.2); /* Increase icon size when collapsed */
+  margin-right: 0;
+}
+
+/* Increase vertical spacing between icons in collapsed state */
+.sidebar.collapsed .settings-menu button {
+  margin-top: 20px; /* Adds spacing between the settings icon */
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+  width: 100%;
+  padding: 8px;
+  background: #44444400;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex; /* Use flex to align items properly */
+  justify-content: center;
+  align-items: center; /* Ensure vertical alignment */
+}
+
+/* Change appearance of the theme button when hovered */
+.theme-toggle-btn:hover {
+  background: #010101;
+  color: #FFF;
+}
+
+/* Active state for the theme toggle button */
+.theme-toggle-btn.active {
+  background-color: var(--secondary-color); /* Change color when active */
+  transform: scale(1.05); /* Slightly enlarge the button when active */
+}
+
+.theme-toggle-btn.active:hover {
+  background-color: var(--highlight-color); /* Optional: change hover color when active */
+}
+
+/* Active state when the button is clicked */
+.theme-toggle-btn.active {
+  background-color: var(--secondary-color);
+}
+
+/* Increase the space above the Toggle Dark Mode button in collapsed mode */
+.sidebar.collapsed .theme-toggle-btn, .sidebar.collapsed .theme-toggle-btn svg {
+  margin-top: 1em; /* Adds 1em space from the top element */
+}
+
+.sidebar.collapsed .appearance-toggle span {
+  display: none; /* Hide text when sidebar is collapsed */
+}
+
+.sidebar .appearance-toggle span {
+  margin-left: 8px; /* Add margin to separate the text from the icon */
+  font-size: 0.9rem;
+  /* Adjust the text styling to make sure it is visible in expanded state */
+  visibility: visible; /* Ensure text is visible when sidebar is expanded */
+}
+
+/* Make sure the icon is visible when collapsed */
+.sidebar.collapsed .theme-toggle-btn .theme-toggle-icon {
+  display: inline-block; /* Make sure the icon is visible even when collapsed */
+  margin-right: 10px; /* Add a margin to the right for spacing */
+  font-size:2em; /* Increased size when sidebar is collapsed */
+}
+
+/* Mobile Viewport: Add Media Queries */
+@media (max-width: 768px) {
+  /* Make sidebar more compact on mobile */
+  .sidebar {
+    width: 60px; /* Narrower sidebar */
+    height: auto;
+  }
+
+  /* Ensure items in the collapsed state are aligned properly */
+  .sidebar.collapsed nav ul li {
+    justify-content: center; /* Center icons horizontally in collapsed state */
+  }
+
+  .sidebar.collapsed nav ul li a svg {
+    transform: scale(1); /* Keep icons at normal size */
+  }
+
+  .sidebar.collapsed .appearance-toggle {
+    align-items: center; /* Center appearance toggle elements */
+    padding: 10px 0;
+  }
+
+  .sidebar.collapsed .theme-toggle-btn {
+    width: 100%; /* Ensure theme toggle button is full width */
+    padding: 10px 0; /* Add padding for better spacing */
+    margin-top: 10px; /* Space above the theme toggle button */
+  }
+
+  .sidebar .settings-menu button {
+    justify-content: center; /* Center the settings button */
+    align-items: center; /* Vertically align items */
+    margin: 20px 0; /* Add spacing above and below the button */
+  }
+
+  /* Ensure the Settings Menu aligns properly in mobile view */
+  .settings-menu button {
+    font-size: 14px; /* Adjust button text size for mobile */
+  }
+
+  /* Make icons a bit bigger for better visibility */
+  .sidebar.collapsed .appearance-toggle svg {
+    transform: scale(1.5); /* Slightly bigger icons */
+  }
+}

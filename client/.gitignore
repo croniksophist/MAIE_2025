@@ -1,0 +1,29 @@
+# Node modules
+node_modules/
+
+# Build artifacts
+/dist
+/build
+/.next
+/.nuxt
+
+# Temporary and cache files
+/.cache
+/.idea
+.vscode
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# TypeScript build output
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Ignore yarn lock files if using npm
+yarn.lock

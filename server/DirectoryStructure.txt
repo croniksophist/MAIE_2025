@@ -1,0 +1,20 @@
+maie_backend/  # Main backend directory
+│
+├── api/             # API Endpoints (FastAPI)
+│   └── main.py      # Main API file with routes and functions.
+│
+├── models/          # Database Models (SQLAlchemy)
+│   └── models.py     # Database models for project, files, etc.
+│
+├── services/        # Service Layer with more extensive back end infrastructure - Celery for now
+│   └── projects_service.py
+|   └── tasks.py
+│   └── ai_service.py #Local object classifiers if preferred - Yolov7 or opencv classifiers here.
+├── config/
+│   └── celery_config.py #Celery's configurations stored
+├── frontend/        # Front-end related code (React)
+│   └── components/  #React component folders
+|   |   └── MediaToolPanel.jsx  # Media Uploader to Back End sample file in Axios POST Method.
+|   └── MediaToolPanel.css #Css class file for basic styling.
+│
+└── README.md       # Top-level README with project instructions.

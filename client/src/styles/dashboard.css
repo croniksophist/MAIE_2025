@@ -1,0 +1,60 @@
+/* Dashboard Layout */
+.dashboard-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f4f4f4;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #222;
+    color: white;
+    padding: 15px 20px;
+}
+
+/* Quick Actions */
+.quick-actions {
+    margin: 20px 0;
+}
+
+.quick-actions button {
+    margin-right: 10px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.quick-actions button:hover {
+    background-color: #0056b3;
+}
+
+/* Project Overview */
+.project-overview table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.project-overview th, .project-overview td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.project-overview th {
+    background: #333;
+    color: white;
+}
+
+/* AI Recommendations */
+.ai-recommendations {
+    margin-top: 20px;
+    padding: 15px;
+    background: white;
+}

@@ -1,0 +1,28 @@
+/* Main Layout Styles */
+.layout {
+  display: flex;
+}
+
+/* Main Content Area */
+.main-content {
+  flex-grow: 1;
+  padding-left: 250px; /* Default padding when sidebar is expanded */
+  transition: padding-left 0.3s ease; /* Smooth transition */
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* If sidebar is collapsed, reduce padding */
+.main-content.collapsed {
+  padding-left: 80px; /* Adjust this to match the collapsed sidebar width */
+}
+
+/* Page Content */
+.page-content {
+  flex: 1;
+  padding: 20px;
+  padding-top: 60px; /* Offsets the navbar height */
+  overflow-y: auto; /* Enable scrolling for the page content */
+}

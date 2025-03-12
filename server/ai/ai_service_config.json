@@ -1,0 +1,16 @@
+{
+    "model_endpoints": {
+      "image_classification": {
+        "url": "http://localhost:5000/predict",
+        "input_format": "base64_image",
+        "output_format": "json"
+      },
+      "text_analysis": {
+        "url": "http://localhost:5001/analyze",
+        "input_format": "plain_text",
+        "output_format": "json"
+      }
+    },
+    "default_timeout": 30
+  }
+  

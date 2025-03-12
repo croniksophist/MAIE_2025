@@ -1,0 +1,17 @@
+name: CD Pipeline
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Deploy to production server
+        run: |
+          ssh user@your-server "cd /path/to/project && git pull && docker-compose up --build -d"

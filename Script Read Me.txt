@@ -1,0 +1,13 @@
+Front_End_Adding_Features.ps1
+
+User Groups (RBAC): Creates the Admin, Editor, and Viewer groups in AWS Cognito.
+Lambda Functions: Creates multiple Lambda functions:
+RBAC Lambda Authorizer for API Gateway.
+Magic Link (Passwordless Authentication).
+Authentication Logging Lambda for CloudWatch.
+Multi-Account Switching Lambda.
+AWS Amplify Configuration: Adds configurations for RBAC and SSO with Okta/Azure AD.
+CloudWatch Logging: Enables logging of authentication events in CloudWatch.
+Steps to Execute:
+Replace Placeholder Values: Ensure to replace "us-east-1_XXXXXXX", "XXXXXXXXXXXXXX", and "arn:aws:iam::YOUR_ACCOUNT_ID:role/your_lambda_execution_role" with the actual values from your AWS account.
+Run Script: Run this script in your PowerShell environment to set up the infrastructure.

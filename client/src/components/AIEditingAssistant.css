@@ -1,0 +1,16 @@
+.ai-editing-assistant {
+    padding: 15px;
+    background: #222;
+    color: white;
+    border-radius: 5px;
+  }
+  
+  .ai-editing-assistant button {
+    padding: 10px;
+    background: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  

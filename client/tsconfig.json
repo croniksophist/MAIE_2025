@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "es5", // Target ES5 for broader browser compatibility
+    "lib": ["dom", "es2015"], // Include DOM and ES2015 libraries for modern JavaScript functionality
+    "typeRoots": ["./node_modules/@types"], // Custom type definitions from node_modules/@types
+    "jsx": "react-jsx", // Enable JSX transformation for React (React 17+ syntax)
+    "module": "esnext", // Use the latest module resolution strategy
+    "moduleResolution": "node", // Use Node.js-style module resolution
+    "strict": true, // Enable strict type checking options
+    "esModuleInterop": true, // Allow default imports for CommonJS modules
+    "skipLibCheck": true, // Skip checking declaration files for faster compilation
+    "forceConsistentCasingInFileNames": true, // Enforce consistent file naming case
+    "isolatedModules": true, // Ensure files are transpiled in isolation (important for TypeScript)
+    "noEmit": true, // Do not emit JavaScript files (useful for type-checking only)
+    "resolveJsonModule": true, // Allow importing JSON files as modules
+    "types": ["react", "react-dom", "@types/react-slick"], // Include types for React, React DOM, and react-slick
+    "baseUrl": "./src", // Set the base URL for non-relative imports
+    "paths": {
+      "@/*": ["*"] // This will map `@/` to the `src/` folder
+    }
+  },
+  "include": [
+    "src/**/*" // Include all files in the 'src' directory
+  ],
+  "exclude": [
+    "node_modules", // Exclude 'node_modules' directory to avoid unnecessary type-checking
+    "build", // Exclude build or dist directories if they exist
+    "public" // Exclude public directory if it's not part of source code
+  ]
+}

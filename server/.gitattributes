@@ -1,0 +1,15 @@
+# Ensure all text files use LF line endings
+* text=auto eol=lf
+
+# Treat JSON and YAML files as text
+*.json text
+*.yaml text
+*.yml text
+
+# Prevent binary files from being diffed
+*.png binary
+*.jpg binary
+*.gif binary
+*.mp4 binary
+*.zip binary
+*.tar.gz binary
