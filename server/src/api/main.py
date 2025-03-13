@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 import shutil
 from uuid import uuid4
 from datetime import datetime
+from src.api.google_photos_router import router as google_photos_router  # Import Google Photos router
 
 # Add the src directory to sys.path (assuming your structure is server/src)
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
@@ -39,6 +40,9 @@ S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
 
 # Initialize FastAPI app
 app = FastAPI()
+
+# Include the Google Photos router
+app.include_router(google_photos_router)
 
 # AWS S3 Client initialization using aioboto3
 async def get_s3_client():

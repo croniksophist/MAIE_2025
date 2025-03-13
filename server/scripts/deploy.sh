@@ -12,7 +12,7 @@ pip install -r requirements.txt
 # Apply database migrations (if using Alembic)
 alembic upgrade head
 
-# Restart the application (modify as needed)
-systemctl restart maie_app  # Adjust to your service name
+# Restart the MAIE application (modify as needed)
+systemctl restart maie_app  # Adjust to service name
 
 echo "Deployment completed."

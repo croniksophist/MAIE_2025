@@ -1,5 +1,7 @@
+// MAIE_Framework_2.0/client/src/store/slices/projectSlice.ts
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchProjects } from '../../services/api'; // This import now works
+import { fetchProjects } from "../../services/api";
 
 // Define the type for a single project
 interface Project {

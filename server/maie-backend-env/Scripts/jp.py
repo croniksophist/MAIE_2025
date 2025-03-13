@@ -1,4 +1,4 @@
-#!D:\MAIE_Framework\server\maie-backend-env\Scripts\python.exe
+#!D:\MAIE_Framework_2.0\server\maie-backend-env\Scripts\python.exe
 
 import sys
 import json

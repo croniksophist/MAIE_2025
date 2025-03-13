@@ -1,5 +1,6 @@
+// src/auth/firebaseConfig.ts
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, User } from "firebase/auth";
 import { getFirestore } from "firebase/firestore"; // Import Firestore
 
 // MAIE Firebase config
@@ -21,15 +22,26 @@ const auth = getAuth(app);
 // Initialize Firestore
 const db = getFirestore(app); // Initialize Firestore
 
-// Authentication helper functions
-const loginWithGoogle = async () => {
+// Authentication helper function to login with Google
+const loginWithGoogle = async (): Promise<User | null> => {
   const provider = new GoogleAuthProvider();
-  await signInWithPopup(auth, provider);
+  try {
+    const result = await signInWithPopup(auth, provider); // Open Google login popup
+    return result.user; // Return the user object from the login result
+  } catch (error) {
+    console.error("Google login failed:", error); // Log any error
+    return null; // Return null in case of an error
+  }
 };
 
-const logout = async () => {
-  await signOut(auth);
+// Function to logout
+const logout = async (): Promise<void> => {
+  try {
+    await signOut(auth); // Sign out the user
+  } catch (error) {
+    console.error("Logout failed:", error); // Log any error during logout
+  }
 };
 
-// Export auth and db
-export { auth, db, loginWithGoogle, logout };  // Export db along with auth
+// Export the necessary elements for use in other parts of the app
+export { auth, db, loginWithGoogle, logout };

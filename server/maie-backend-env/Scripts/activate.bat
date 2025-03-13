@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=D:\MAIE_Framework\server\maie-backend-env
+set VIRTUAL_ENV=D:\MAIE_Framework_2.0\server\maie-backend-env
 
 if not defined PROMPT set PROMPT=$P$G
 
@@ -25,7 +25,6 @@ if defined _OLD_VIRTUAL_PATH set PATH=%_OLD_VIRTUAL_PATH%
 if not defined _OLD_VIRTUAL_PATH set _OLD_VIRTUAL_PATH=%PATH%
 
 set PATH=%VIRTUAL_ENV%\Scripts;%PATH%
-set VIRTUAL_ENV_PROMPT=(maie-backend-env) 
 
 :END
 if defined _OLD_CODEPAGE (

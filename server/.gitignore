@@ -1,10 +1,31 @@
+# Operating System files
 .DS_Store
 Thumbs.db
-# .gitignore
-.env
+
+# Python environment
+.venv/
+.maie-backend-env/
+
+# IDE configurations
 .idea/
 .vscode/
+
+# Node.js dependencies
 node_modules/
+
+# Build outputs
 build/
+
+# Secrets directory (but keep the directory structure with .keep)
 secrets/*
-!secrets/.keep  # Keep directory structure
+!secrets/.keep
+
+# Environment variables
+.env
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# Other temporary files
+*.log

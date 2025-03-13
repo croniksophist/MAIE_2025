@@ -1,3 +1,5 @@
+// MAIE_Framework_2.0/client/src/components/TokenDashboard.tsx
+
 import React, { useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { getTokenBalance, spendTokens, earnTokens } from "../services/tokenService";

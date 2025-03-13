@@ -1,0 +1,122 @@
+Guide: main.py Key Components and Setup
+This guide provides an overview of the key components and setup in the main.py file for the FastAPI backend, file uploads, and API endpoints.
+
+1. FastAPI App Initialization
+The FastAPI app is initialized with the following:
+
+python
+Copy
+app = FastAPI()
+This creates an instance of the FastAPI application that serves as the backend.
+
+2. CORS Configuration
+CORS (Cross-Origin Resource Sharing) allows the frontend application to interact with the backend without running into issues related to cross-origin requests. In development, it allows the frontend running on localhost:3000 to communicate with the backend on localhost:8000.
+
+python
+Copy
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "https://your-frontend.com"],  # Development and production frontend URLs
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all HTTP methods
+    allow_headers=["*"],  # Allows all headers
+)
+allow_origins: Set the allowed origins for CORS (frontend URLs).
+allow_methods: Allows all HTTP methods (GET, POST, etc.).
+allow_headers: Allows all headers.
+3. File Uploads
+The backend handles file uploads through two endpoints:
+
+Simulate AI Processing (/upload):
+
+python
+Copy
+@app.post("/upload")
+async def upload_file(file: UploadFile = File(...)):
+    # Simulate AI processing after file upload
+    # Save file locally or process as needed
+    ai_response = {"filename": file.filename, "analysis": "AI detected a high-action scene with fast transitions."}
+    return ai_response
+Upload to AWS S3 (/uploadfile/):
+
+python
+Copy
+@app.post("/uploadfile/")
+async def create_upload_file(background_tasks: BackgroundTasks, file: UploadFile = File(...)):
+    allowed_file_types = ["image/jpeg", "image/png", "application/pdf"]
+    if file.content_type not in allowed_file_types:
+        raise HTTPException(status_code=400, detail="Invalid file type")
+    
+    background_tasks.add_task(upload_to_s3, file, file.filename)  # Upload to S3 in the background
+    return {"filename": file.filename, "message": "Upload started in the background", "success": True}
+upload_to_s3 function: Handles uploading files to an AWS S3 bucket asynchronously using aioboto3.
+
+python
+Copy
+async def upload_to_s3(file: UploadFile, file_path: str):
+    try:
+        async with get_s3_client() as s3:
+            await s3.upload_fileobj(file.file, S3_BUCKET_NAME, file.filename)
+        logger.info(f"File {file.filename} uploaded to S3 successfully.")
+    except Exception as e:
+        logger.error(f"Error uploading file {file.filename} to S3: {e}")
+        raise HTTPException(status_code=500, detail=f"File upload failed: {str(e)}")
+File Type Validation: Before uploading to S3, file type validation is performed to ensure that only certain file types (e.g., image/jpeg, image/png, application/pdf) are accepted.
+4. Database Integration
+The backend uses SQLAlchemy for database interactions. A helper function get_db() provides a database session for each request:
+
+python
+Copy
+def get_db():
+    db = SessionLocal()  # Create a new session
+    try:
+        yield db
+    finally:
+        db.close()  # Close session after request
+This session is used in service classes for database operations.
+
+5. Project Endpoints
+Create Project (/projects/ POST):
+
+python
+Copy
+@app.post("/projects/", response_model=ProjectSchema)
+async def create_project(project: ProjectSchema, project_service: ProjectsService = Depends(get_project_service)):
+    new_project = project_service.create_project(name=project.name, description=project.description)
+    return new_project
+Get Projects (/projects/ GET):
+
+python
+Copy
+@app.get("/projects/", response_model=List[ProjectSchema])
+async def get_projects(project_service: ProjectsService = Depends(get_project_service)):
+    projects = project_service.get_projects()
+    return projects
+These endpoints interact with the ProjectsService to manage projects in the database.
+
+6. Environment Variables and AWS Configuration
+The backend uses environment variables for sensitive configurations such as database credentials and AWS keys. Ensure these are set in your .env file:
+
+bash
+Copy
+DB_CONNECTION_STRING=your_database_connection_string
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+AWS_REGION_NAME=your_aws_region
+S3_BUCKET_NAME=your_s3_bucket_name
+7. Logging
+Logging is configured using Python’s logging library. All major events such as file uploads and errors are logged:
+
+python
+Copy
+logging.basicConfig(level=logging.INFO)
+This allows for tracking file uploads and troubleshooting when needed.
+
+Summary:
+FastAPI Setup: The app is initialized using FastAPI() and includes key routes like file uploads and project management.
+CORS: Configured to allow the frontend (React app) to make requests to the backend.
+File Uploads: Files are uploaded either locally or to AWS S3 in the background.
+Database: SQLAlchemy sessions are used for managing database interactions.
+Project Endpoints: Routes to create and retrieve projects.
+Environment Variables: Used for configuring sensitive information like AWS credentials and database connection strings.
+Logging: Helps track and debug errors.

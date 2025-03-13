@@ -33,15 +33,22 @@ import "./styles/global.css";
 // Import AuthProvider
 import { AuthProvider } from "./context/AuthContext";
 // Corrected imports
-import { ThemeProvider as ThemeContextProvider, useTheme } from "./context/ThemeContext"; 
+import { ThemeProvider as ThemeContextProvider, useTheme } from "./context/ThemeContext";
+
+// Import API Functions
+import { fetchS3Images, fetchGooglePhotos } from "./api/imageApi";  // Have this API setup
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
   const auth = useAuth();
   const { themeMode, toggleTheme } = useTheme(); // Access themeMode from context
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Manage mobile menu state
+  const [s3Images, setS3Images] = useState<string[]>([]); // State for S3 images
+  const [googlePhotosImages, setGooglePhotosImages] = useState<string[]>([]); // State for Google Photos images
+  const [loading, setLoading] = useState<boolean>(true); // Loading state for fetching images
 
   useEffect(() => {
+    // Fetch user data on authentication
     if (auth.isAuthenticated) {
       const user = auth.user;
       if (user) {
@@ -53,7 +60,28 @@ const App: React.FC = () => {
         );
       }
     }
-  }, [auth.isAuthenticated, dispatch, auth.user]);
+
+    // Fetch images from S3 and Google Photos
+    const loadImages = async () => {
+      const s3BucketName = "your-s3-bucket-name";  // Replace with your actual S3 bucket name
+      const googleAccessToken = "your-google-access-token";  // Replace with actual OAuth access token
+
+      try {
+        setLoading(true);
+        const fetchedS3Images = await fetchS3Images(s3BucketName);
+        const fetchedGooglePhotos = await fetchGooglePhotos(googleAccessToken);
+
+        setS3Images(fetchedS3Images);
+        setGooglePhotosImages(fetchedGooglePhotos);
+      } catch (error) {
+        console.error("Error fetching images:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadImages();
+  }, [auth.isAuthenticated, dispatch]);
 
   const theme = createTheme({
     palette: {
@@ -61,10 +89,14 @@ const App: React.FC = () => {
     },
   });
 
+  if (loading) {
+    return <div>Loading images...</div>;
+  }
+
   return (
     <AuthProvider>
       <Provider store={store}>
-        <ThemeContextProvider> 
+        <ThemeContextProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <MainLayout
@@ -88,6 +120,31 @@ const App: React.FC = () => {
                 <Route path="/blog" element={<BlogList />} />
                 <Route path="/blog/:slug" element={<BlogPostWrapper />} />
               </Routes>
+
+              {/* Example Gallery Section */}
+              <div>
+                <h2>S3 Image Gallery</h2>
+                <div>
+                  {s3Images.length > 0 ? (
+                    s3Images.map((image, index) => (
+                      <img key={index} src={image} alt={`S3 image ${index}`} style={{ width: '200px', margin: '10px' }} />
+                    ))
+                  ) : (
+                    <p>No images found in S3</p>
+                  )}
+                </div>
+
+                <h2>Google Photos Gallery</h2>
+                <div>
+                  {googlePhotosImages.length > 0 ? (
+                    googlePhotosImages.map((image, index) => (
+                      <img key={index} src={image} alt={`Google Photo ${index}`} style={{ width: '200px', margin: '10px' }} />
+                    ))
+                  ) : (
+                    <p>No images found in Google Photos</p>
+                  )}
+                </div>
+              </div>
             </MainLayout>
           </ThemeProvider>
         </ThemeContextProvider>

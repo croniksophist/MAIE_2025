@@ -1,8 +1,16 @@
+// src/services/photoCategorization.ts
 import { analyzeImage } from "./photoAI";
 
 interface CategorizedImages {
   [category: string]: string[];
 }
+
+const categorizeByLabels = (labels: string[]): string => {
+  if (labels.includes("Person")) return "People";
+  if (labels.includes("Landscape")) return "Landscapes";
+  if (labels.includes("Building")) return "Architecture";
+  return "Miscellaneous";
+};
 
 export const categorizePhotos = async (photoUrls: string[]): Promise<CategorizedImages> => {
   const categories: CategorizedImages = {};
@@ -12,15 +20,7 @@ export const categorizePhotos = async (photoUrls: string[]): Promise<Categorized
     if (!aiData) continue;
 
     const detectedLabels = aiData.labelAnnotations.map((label: any) => label.description);
-
-    // Determine category based on detected labels
-    const category = detectedLabels.includes("Person")
-      ? "People"
-      : detectedLabels.includes("Landscape")
-      ? "Landscapes"
-      : detectedLabels.includes("Building")
-      ? "Architecture"
-      : "Miscellaneous";
+    const category = categorizeByLabels(detectedLabels);
 
     if (!categories[category]) {
       categories[category] = [];
