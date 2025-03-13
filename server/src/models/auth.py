@@ -48,7 +48,7 @@ def verify_firebase_token(id_token: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error verifying Firebase token: {str(e)}")
 
-# Register new user - No change required here
+# Register new user
 @auth_router.post("/register")
 def register(email: str, password: str, db: Session = Depends(get_db)):
     hashed_password = pwd_context.hash(password)

@@ -75,7 +75,7 @@
 
 /* Styling for settings and appearance */
 .settings-menu {
-  margin-top: 20px;
+  margin: 20px auto 40px auto;
 }
 
 /* Settings button styling */
@@ -111,7 +111,7 @@
 
 /* Increase vertical spacing between icons in collapsed state */
 .sidebar.collapsed .settings-menu button {
-  margin-top: 20px; /* Adds spacing between the settings icon */
+margin: 20px auto 0 auto;
 }
 
 /* Theme Toggle Button */

@@ -7,10 +7,13 @@ from typing import List
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
+from server.models import plugin, auth  # import new routers
+from server.database import engine, Base
 import shutil
 from uuid import uuid4
 from datetime import datetime
 from src.api.google_photos_router import router as google_photos_router  # Import Google Photos router
+from src.routers import review  # Import the review router
 
 # Add the src directory to sys.path (assuming your structure is server/src)
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
@@ -44,6 +47,9 @@ app = FastAPI()
 # Include the Google Photos router
 app.include_router(google_photos_router)
 
+# Include review routes
+app.include_router(review.router, prefix="/plugin", tags=["reviews"])
+
 # AWS S3 Client initialization using aioboto3
 async def get_s3_client():
     """Return an S3 client."""
@@ -58,6 +64,12 @@ async def get_s3_client():
 # Configure logging
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
+
+# Router to FastAPI application
+Base.metadata.create_all(bind=engine)
+
+app.include_router(auth.router, prefix="/auth")
+app.include_router(plugin.router, prefix="/plugin")
 
 # CORS Handling (Enable CORS for the frontend URL during development and production)
 app.add_middleware(
