@@ -113,6 +113,9 @@ const AIMarketplace: React.FC = () => {
           <div className="more-details">
             <h3>How AI Tools Work</h3>
             <p>Enhance your media workflow with AI-powered automation and efficiency.</p>
+            <Button variant="contained" onClick={() => navigate("/MaieSplashPage")}>
+              Visit Main Splash Page
+            </Button>
           </div>
         )}
       </section>

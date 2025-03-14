@@ -1,0 +1,307 @@
+import React, { useState, useEffect } from "react";
+import { getSmartContract } from "../services/smartContractService";
+import { ethers } from "ethers";
+import { useNavigate } from "react-router-dom";
+import { 
+  Button, 
+  Card, 
+  CardContent, 
+  Grid, 
+  Typography, 
+  Box, 
+  Chip, 
+  CircularProgress,
+  Paper,
+  Divider,
+  Fade,
+  Zoom,
+  Container
+} from "@mui/material";
+import {
+  Layers as LayersIcon,
+  Code as CodeIcon,
+  Storage as StorageIcon,
+  Shop as ShopIcon,
+  Description as DescriptionIcon,
+  TokenOutlined as TokenIcon,
+  AutoAwesome as AutoAwesomeIcon,
+  Healing as HealingIcon,
+  Videocam as VideocamIcon,
+  GraphicEq as GraphicEqIcon
+} from '@mui/icons-material';
+
+// Add custom styles
+const styles = {
+  hero: {
+    background: 'linear-gradient(135deg, #2a3eb1 0%, #1976d2 100%)',
+    padding: '60px 0',
+    color: 'white',
+    borderRadius: '0 0 16px 16px',
+    marginBottom: '2rem',
+    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  heroOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'url("data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z" fill="%23ffffff" fill-opacity="0.1" fill-rule="evenodd"/%3E%3C/svg%3E")',
+    opacity: 0.3,
+  },
+  section: {
+    marginBottom: '2.5rem',
+    padding: '1.5rem',
+    borderRadius: '12px',
+    boxShadow: '0 2px 12px rgba(0, 0, 0, 0.08)',
+    background: 'white',
+    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+    '&:hover': {
+      transform: 'translateY(-5px)',
+      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+    },
+  },
+  featureCard: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    transition: 'transform 0.3s ease',
+    '&:hover': {
+      transform: 'translateY(-8px)',
+    },
+  },
+  iconBox: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '60px',
+    height: '60px',
+    borderRadius: '50%',
+    margin: '0 auto 1rem',
+    background: 'linear-gradient(135deg, #b92b27 0%, #1565C0 100%)',
+    color: 'white',
+  },
+  toolCard: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '1rem',
+    marginBottom: '1rem',
+    borderRadius: '8px',
+    backgroundColor: '#f5f9ff',
+    border: '1px solid #e0e9ff',
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      backgroundColor: '#e6f0ff',
+      transform: 'scale(1.02)',
+    },
+  },
+  datasetCard: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '1rem',
+    marginBottom: '1rem',
+    borderRadius: '8px',
+    backgroundColor: '#f9f9f9',
+    border: '1px solid #eaeaea',
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      backgroundColor: '#f0f0f0',
+      transform: 'scale(1.02)',
+    },
+  },
+  ctaButton: {
+    padding: '10px 24px',
+    borderRadius: '28px',
+    fontWeight: 'bold',
+    textTransform: 'none',
+    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.1)',
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      transform: 'translateY(-2px)',
+      boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)',
+    },
+  },
+};
+
+const AIMarketplace: React.FC = () => {
+  const [datasets, setDatasets] = useState<any[]>([]);
+  const [showDetails, setShowDetails] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchDatasets = async () => {
+      const contract = await getSmartContract();
+      if (contract) {
+        try {
+          const count = await contract.datasetCount();
+          let items = [];
+          for (let i = 1; i <= count; i++) {
+            const data = await contract.getDataset(i);
+            items.push({
+              id: i,
+              name: data.name,
+              price: ethers.formatEther(data.price),
+              owner: data.owner,
+            });
+          }
+          setDatasets(items);
+        } catch (error) {
+          console.error("Error fetching datasets:", error);
+          alert("Failed to fetch datasets.");
+        }
+      }
+      setLoading(false);
+    };
+
+    fetchDatasets();
+  }, []);
+
+  const purchaseDataset = async (datasetId: number, price: string) => {
+    const contract = await getSmartContract();
+    if (contract) {
+      try {
+        await contract.purchaseDataset(datasetId, { value: ethers.parseEther(price) });
+        alert("Dataset Purchased!");
+      } catch (error) {
+        console.error("Error purchasing dataset:", error);
+        alert("Failed to purchase dataset.");
+      }
+    }
+  };
+
+  const toggleDetails = () => setShowDetails(!showDetails);
+
+  // AI Tools data
+  const aiTools = [
+    { name: "AI Auto-Tagging", icon: <AutoAwesomeIcon />, description: "Automatically tag and categorize media content" },
+    { name: "AI Object Removal", icon: <HealingIcon />, description: "Remove unwanted objects from images and videos" },
+    { name: "AI Video Stabilization", icon: <VideocamIcon />, description: "Enhance shaky footage with AI stabilization" },
+    { name: "AI Voice Enhancement", icon: <GraphicEqIcon />, description: "Clean and enhance audio with AI processing" }
+  ];
+
+  // Features data
+  const features = [
+    { title: "Shared AI Dataset Repository", icon: <StorageIcon fontSize="large" />, description: "Contribute and access anonymized, ethically sourced media data" },
+    { title: "Collaborative Model Training", icon: <LayersIcon fontSize="large" />, description: "Work on AI models with industry peers" },
+    { title: "APIs & SDKs", icon: <CodeIcon fontSize="large" />, description: "Integrate AI into media production pipelines" },
+    { title: "Resource Marketplace", icon: <ShopIcon fontSize="large" />, description: "Rent/purchase AI computing resources and storage" },
+    { title: "Smart Contracts", icon: <DescriptionIcon fontSize="large" />, description: "Automate compensation and enforce data-sharing policies" },
+    { title: "Token Economy", icon: <TokenIcon fontSize="large" />, description: "Earn and spend tokens within the ecosystem" }
+  ];
+
+  return (
+    <div className="ai-marketplace">
+      {/* Hero Section */}
+      <Box sx={styles.hero}>
+        <Box sx={styles.heroOverlay}></Box>
+        <Container maxWidth="lg">
+          <Zoom in={true} timeout={1000}>
+            <Box textAlign="center">
+              <Typography variant="h2" fontWeight="bold" mb={2}>AI Dataset Marketplace</Typography>
+              <Typography variant="h6" mb={4} sx={{ maxWidth: '800px', margin: '0 auto' }}>
+                Welcome to Media AI Exchange (MAIE), the cloud-based platform for media companies 
+                to collaborate, share data, and innovate using AI-powered tools.
+              </Typography>
+              <Button 
+                variant="contained" 
+                color="secondary" 
+                size="large" 
+                sx={styles.ctaButton}
+                onClick={() => navigate("/projects")}
+              >
+                Explore Projects
+              </Button>
+            </Box>
+          </Zoom>
+        </Container>
+      </Box>
+
+      <Container maxWidth="lg">
+        {/* Platform Overview */}
+        <Fade in={true} timeout={1000}>
+          <Paper elevation={0} sx={styles.section}>
+            <Typography variant="h4" fontWeight="bold" mb={2}>Platform Overview</Typography>
+            <Typography variant="body1">
+              MAIE allows media companies to pool resources, share datasets, 
+              and train machine learning models for media production. Our innovative 
+              blockchain-based approach ensures fair compensation and transparent collaboration.
+            </Typography>
+          </Paper>
+        </Fade>
+
+        {/* Key Features */}
+        <Box my={5}>
+          <Typography variant="h4" fontWeight="bold" mb={4} textAlign="center">Key Features</Typography>
+          <Grid container spacing={3}>
+            {features.map((feature, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <Zoom in={true} style={{ transitionDelay: `${index * 100}ms` }}>
+                  <Card sx={styles.featureCard}>
+                    <CardContent sx={{ textAlign: 'center' }}>
+                      <Box sx={styles.iconBox}>
+                        {feature.icon}
+                      </Box>
+                      <Typography variant="h6" fontWeight="bold" mb={1}>
+                        {feature.title}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {feature.description}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Zoom>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+
+        {/* Available AI Datasets */}
+        <Paper elevation={0} sx={styles.section}>
+          <Typography variant="h4" fontWeight="bold" mb={3}>Available AI Datasets</Typography>
+          {loading ? (
+            <Box display="flex" justifyContent="center" my={4}>
+              <CircularProgress />
+            </Box>
+          ) : datasets.length > 0 ? (
+            <Box>
+              {datasets.map((dataset) => (
+                <Fade in={true} key={dataset.id}>
+                  <Box sx={styles.datasetCard}>
+                    <Box>
+                      <Typography variant="h6">{dataset.name}</Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Owner: {dataset.owner.substring(0, 6)}...{dataset.owner.substring(dataset.owner.length - 4)}
+                      </Typography>
+                    </Box>
+                    <Box display="flex" alignItems="center">
+                      <Chip 
+                        label={`${dataset.price} ETH`} 
+                        color="primary" 
+                        size="small" 
+                        sx={{ mr: 2 }}
+                      />
+                      <Button 
+                        variant="contained" 
+                        color="primary" 
+                        onClick={() => purchaseDataset(dataset.id, dataset.price)}
+                      >
+                        Buy
+                      </Button>
+                    </Box>
+                  </Box>
+                </Fade>
+              ))}
+            </Box>
+          ) : (
+            <Box sx={{ textAlign: 'center', py: 4 }}>
+              <Typography variant="body1">No datasets available at the moment.</Typography>
+              <Button variant="outlined" sx={{ mt: 2 }}>Add Your Dataset</Button>
+            </Box>
+          )}
+        </Paper>
+
+        {

@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, ForeignKey, Boolean, Text
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, ForeignKey, Boolean, Text, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from datetime import datetime
@@ -97,18 +97,20 @@ class Plugin(Base):
     name = Column(String(255), nullable=False, index=True)
     description = Column(String)
     type = Column(String, nullable=False)  # e.g., Video Editing, Audio Processing, etc.
-    rating = Column(Integer, default=0)
     price = Column(String, nullable=False)
     compatibility = Column(String)
     installable = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
+    
+    # Changed from Integer to Float for more precise rating
+    rating = Column(Float, default=0.0)
 
     # Many-to-many relationship with projects
     projects = relationship("Project", secondary="project_plugins", back_populates="plugins")
     reviews = relationship("Review", back_populates="plugin")
 
     def __repr__(self):
-        return f"<Plugin(id={self.id}, name={self.name}, type={self.type}, price={self.price})>"
+        return f"<Plugin(id={self.id}, name={self.name}, type={self.type}, price={self.price}, rating={self.rating})>"
 
 # Association table for many-to-many relationship between Project and Plugin
 class ProjectPlugins(Base):
@@ -116,6 +118,10 @@ class ProjectPlugins(Base):
 
     project_id = Column(Integer, ForeignKey('projects.id', ondelete='CASCADE'), primary_key=True)
     plugin_id = Column(Integer, ForeignKey('plugins.id', ondelete='CASCADE'), primary_key=True)
+
+    # Added these relationships to match the paste example
+    project = relationship("Project", back_populates="plugins_association")
+    plugin = relationship("Plugin", back_populates="projects_association")
 
     def __repr__(self):
         return f"<ProjectPlugins(project_id={self.project_id}, plugin_id={self.plugin_id})>"

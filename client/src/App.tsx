@@ -23,6 +23,10 @@ import AIMarketplace from "./pages/AIMarketplace";
 import Marketplace from "./pages/Marketplace";
 import Projects from "./pages/Projects";
 
+// Import Splash Elements
+// @ts-ignore - Add this line to ignore the TypeScript error
+import MaieSplashPage from './components/MaieSplashPage';
+
 // Import Main Layout
 import MainLayout from "./layouts/MainLayout";
 
@@ -99,13 +103,21 @@ const App: React.FC = () => {
         <ThemeContextProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            <MainLayout
-              toggleTheme={toggleTheme}
-              themeMode={themeMode}
-              isMenuOpen={isMenuOpen} // Pass menu state
-              setMenuOpen={setIsMenuOpen} // Pass menu toggle function
-            >
-              <Routes>
+            <Routes>
+              {/* Add the splash page as the root route */}
+              <Route path="/MaieSplashPage" element={<MaieSplashPage />} />
+              
+              {/* Wrap all other routes in MainLayout */}
+              <Route 
+                element={
+                  <MainLayout
+                    toggleTheme={toggleTheme}
+                    themeMode={themeMode}
+                    isMenuOpen={isMenuOpen}
+                    setMenuOpen={setIsMenuOpen}
+                  />
+                }
+              >
                 <Route path="/login" element={<LoginForm />} />
                 <Route path="/register" element={<RegisterForm />} />
                 <Route path="/notifications" element={<Notifications />} />
@@ -119,33 +131,8 @@ const App: React.FC = () => {
                 <Route path="/marketplace" element={<Marketplace />} />
                 <Route path="/blog" element={<BlogList />} />
                 <Route path="/blog/:slug" element={<BlogPostWrapper />} />
-              </Routes>
-
-              {/* Example Gallery Section */}
-              <div>
-                <h2>S3 Image Gallery</h2>
-                <div>
-                  {s3Images.length > 0 ? (
-                    s3Images.map((image, index) => (
-                      <img key={index} src={image} alt={`S3 image ${index}`} style={{ width: '200px', margin: '10px' }} />
-                    ))
-                  ) : (
-                    <p>No images found in S3</p>
-                  )}
-                </div>
-
-                <h2>Google Photos Gallery</h2>
-                <div>
-                  {googlePhotosImages.length > 0 ? (
-                    googlePhotosImages.map((image, index) => (
-                      <img key={index} src={image} alt={`Google Photo ${index}`} style={{ width: '200px', margin: '10px' }} />
-                    ))
-                  ) : (
-                    <p>No images found in Google Photos</p>
-                  )}
-                </div>
-              </div>
-            </MainLayout>
+              </Route>
+            </Routes>
           </ThemeProvider>
         </ThemeContextProvider>
       </Provider>
